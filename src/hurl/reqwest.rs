@@ -28,7 +28,7 @@ impl Hurl for ReqwestHurl {
         };
 
         let mut url = Url::parse(req.url)
-            .map_err(|e| format!("could not parse url: {:?}", e))?;
+            .map_err(|e| format!("invalid URL: {:?}", e))?;
 
         // if request has query
         if let Some(ref query) = req.query {
@@ -67,10 +67,10 @@ impl Hurl for ReqwestHurl {
         let request = builder.build().unwrap();
 
         let resp = client.execute(request).await
-            .map_err(|e| e.to_string())?;
+            .map_err(|e| format!("request failed: {}", e))?;
         let status = resp.status().as_u16();
         let body = resp.text().await
-            .map_err(|e| e.to_string())?;
+            .map_err(|e| format!("failed to load response: {}", e))?;
 
         Ok(Response { status, body })
     }
