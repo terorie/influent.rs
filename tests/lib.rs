@@ -1,7 +1,3 @@
-extern crate influent;
-extern crate tokio;
-extern crate futures;
-
 use influent::create_client;
 use influent::client::{Client, Credentials};
 use influent::client::http::HttpClient;
